@@ -32,14 +32,13 @@ jobs:
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
           
-          # Force python to map pyrogram layers and inject fallbacks for all premium attributes
-          SITE_PACKAGES=$(python -c "import site; print(site.getsitepackages())")
+          # FIXED: Pure clear path extraction string structure using site.getsitepackages()[0]
+          SITE_PACKAGES=$(python -c "import site; print(site.getsitepackages()[0])")
           
-          cat << 'EOF' > $SITE_PACKAGES/sitecustomize.py
+          cat << 'EOF' > "$SITE_PACKAGES/sitecustomize.py"
           import sys
           import hydrogram
           
-          # Inject dummy classes for components that crash standard imports
           class DummyPrice:
               def __init__(self, label, amount):
                   self.label = label
@@ -51,7 +50,6 @@ jobs:
           if not hasattr(hydrogram.types, 'LabeledPrice'):
               hydrogram.types.LabeledPrice = DummyPrice
               
-          # Global translation layering to safeguard original code tree
           sys.modules['pyrogram'] = hydrogram
           sys.modules['pyrogram.types'] = hydrogram.types
           sys.modules['pyrogram.errors'] = hydrogram.errors
