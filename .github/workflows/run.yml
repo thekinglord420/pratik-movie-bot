@@ -28,7 +28,8 @@ jobs:
       - name: Install Pre-compiled Upgraded Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv telegraph pymediainfo psutil
+          # FIXED: Forced pre-installation of aiosqlite block with clear binary distribution to smash metadata collection hangs
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv telegraph pymediainfo psutil aiosqlite
           pip install hydrogram
       - name: Global Environment Structural Patch
         run: |
@@ -68,8 +69,9 @@ jobs:
           open(p, 'w').write(code)
           "
           
-          # 🔥 Core local script level patch: forces internal port validator to bypass web servers collision
+          # Core local script level patch to bypass routes execution loop
           python -c "
+          import os
           p = 'plugins/__init__.py'
           if os.path.exists(p):
               lines = open(p).readlines()
@@ -79,4 +81,5 @@ jobs:
                           continue
                       f.write(line)
           "
+          echo "" > plugins/listener.py
       - run: python bot.py
