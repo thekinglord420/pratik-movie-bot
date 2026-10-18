@@ -24,7 +24,7 @@ jobs:
       - name: Install Pre-compiled Upgraded Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv telegraph
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv telegraph pymediainfo
           pip install hydrogram
       - name: Global Environment Structural Patch
         run: |
