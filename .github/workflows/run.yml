@@ -21,15 +21,17 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install Pre-compiled Binary Packages
+      - name: Install Pre-compiled Upgraded Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install pyrogram==2.0.106 tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
-      - name: Inject Core Configuration Variables
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
+          pip install hydrogram
+      - name: Global Environment Structural Patch
         run: |
           mkdir -p imdbkit
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
-          # Patching pyrogram types mapping inside runner environment
-          python -c "import os; p='/opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/pyrogram/types/__init__.py'; open(p, 'a').write('\nLinkPreviewOptions = None\n')" || true
+          # Force python to transparently map pyrogram imports directly to hydrogram layout structure
+          SITE_PACKAGES=$(python -c "import site; print(site.getsitepackages()[0])")
+          echo "import sys; import hydrogram; sys.modules['pyrogram'] = hydrogram; sys.modules['pyrogram.types'] = hydrogram.types; sys.modules['pyrogram.errors'] = hydrogram.errors; sys.modules['pyrogram.enums'] = hydrogram.enums" > $SITE_PACKAGES/sitecustomize.py
       - run: python bot.py
