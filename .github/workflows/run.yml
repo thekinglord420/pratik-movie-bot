@@ -8,6 +8,13 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    env:
+      API_ID: "36033911"
+      API_HASH: "e66cab096ef6482d2a3b366b9e7606af"
+      BOT_TOKEN: "8894292698:AAE12lJJmhG5rFQ7zDrPVXc2D-u6kLLsDAg"
+      DATABASE_URI: "mongodb+srv://mybotuser:Pratik999@cluster0.q91rtql.mongodb.net/"
+      CHANNELS: "-1003965297473"
+      LOG_CHANNEL: "-1003965297473"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
