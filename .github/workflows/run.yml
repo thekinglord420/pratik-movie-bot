@@ -11,7 +11,7 @@ jobs:
     env:
       API_ID: "36033911"
       API_HASH: "e66cab096ef6482d2a3b366b9e7606af"
-      BOT_TOKEN: "8894292698:AAE12lJJmhG5rFQ7zDrPVXc2D-u6kLLsDAg"
+      BOT_TOKEN: "8894292698:AAH0_Eti8K3ZF7G8F2DhH9cvIZE1EU7GIvQ"
       DATABASE_URI: "mongodb+srv://mybotuser:Pratik999@cluster0.q91rtql.mongodb.net/"
       DATABASE_NAME: "Cluster0"
       CHANNELS: "-1003965297473"
