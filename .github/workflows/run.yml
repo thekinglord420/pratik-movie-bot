@@ -15,10 +15,16 @@ jobs:
       DATABASE_URI: "mongodb+srv://mybotuser:Pratik999@cluster0.q91rtql.mongodb.net/"
       CHANNELS: "-1003965297473"
       LOG_CHANNEL: "-1003965297473"
+      IMDB: "False"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - run: pip install pyrogram tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython "git+https://github.com/aod/imdbkit.git"
+      - run: pip install pyrogram tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython
+      - name: Bypass IMDb Requirement Error
+        run: |
+          mkdir -p imdbkit
+          touch imdbkit/__init__.py
+          echo "class IMDBKit: pass" > imdbkit/__init__.py
       - run: python bot.py
