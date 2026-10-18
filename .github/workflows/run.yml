@@ -24,7 +24,7 @@ jobs:
       - name: Install Pre-compiled Upgraded Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv telegraph
           pip install hydrogram
       - name: Global Environment Structural Patch
         run: |
@@ -32,7 +32,7 @@ jobs:
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
           
-          # FIXED: Directly addresses directory schema structure without using site.getsitepackages() list method
+          # Directly addresses directory schema structure without list method
           python -c "
           import os
           p = '/opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/sitecustomize.py'
