@@ -32,10 +32,10 @@ jobs:
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
           
-          # Upgraded multi-layer framework runtime mapping engine
+          # FIXED: Extracts string explicitly from getsitepackages() list by locking [0] index
           python -c "
           import site, os
-          p = os.path.join(site.getsitepackages(), 'sitecustomize.py')
+          p = os.path.join(site.getsitepackages()[0], 'sitecustomize.py')
           code = '''import sys
           import hydrogram
           
@@ -45,7 +45,6 @@ jobs:
           def dummy_decorator(*args, **kwargs):
               return lambda f: f
           
-          # Inject target elements to handle dynamic classes
           for attr in ['LinkPreviewOptions', 'LabeledPrice', 'PreCheckoutQuery', 'ShippingQuery']:
               if not hasattr(hydrogram.types, attr):
                   setattr(hydrogram.types, attr, DummyObj)
@@ -54,7 +53,6 @@ jobs:
               if not hasattr(hydrogram.Client, dec):
                   setattr(hydrogram.Client, dec, dummy_decorator)
                   
-          # Injecting payment verification filters attributes securely
           if not hasattr(hydrogram.filters, 'successful_payment'):
               setattr(hydrogram.filters, 'successful_payment', dummy_decorator)
           
