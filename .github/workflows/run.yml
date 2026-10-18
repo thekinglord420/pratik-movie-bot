@@ -24,7 +24,7 @@ jobs:
       - name: Install Pre-compiled Upgraded Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow rapidfuzz rebulk python-dotenv
           pip install hydrogram
       - name: Global Environment Structural Patch
         run: |
@@ -32,7 +32,7 @@ jobs:
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
           
-          # FIXED: Extracts string explicitly from getsitepackages() list by locking [0] index
+          # Force python to map pyrogram layers and inject fallbacks for all parameters securely
           python -c "
           import site, os
           p = os.path.join(site.getsitepackages()[0], 'sitecustomize.py')
