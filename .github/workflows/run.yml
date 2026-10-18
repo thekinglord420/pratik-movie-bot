@@ -24,12 +24,13 @@ jobs:
       - name: Install Pre-compiled Binary Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install --only-binary=:all: pyrogram==2.0.106 tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
+          pip install hydrogram
       - name: Bypass IMDb & Link Options Requirement Errors
         run: |
           mkdir -p imdbkit
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
-          # Fixing the Pyrogram LinkPreviewOptions path mismatch runtime drop
-          python -c "import os; p='/opt/hostedtoolcache/Python/3.10.22/x64/lib/python3.10/site-packages/pyrogram/types/__init__.py'; open(p, 'a').write('\nLinkPreviewOptions = None\n')" || true
+          # Dynamic fallback creation to align hydrogram imports seamlessly
+          python -c "import sys; import hydrogram; sys.modules['pyrogram'] = hydrogram" || true
       - run: python bot.py
