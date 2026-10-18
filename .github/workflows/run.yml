@@ -24,7 +24,7 @@ jobs:
       - name: Install Pre-compiled Binary Packages
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles
+          pip install tgcrypto motor==3.3.2 pymongo==4.6.3 requests aiohttp pytz jinja2 umongo marshmallow beautifulsoup4 dnspython shortzy aiofiles Pillow
           pip install --upgrade --no-cache-dir pyrogram
       - name: Bypass IMDb Requirement Error
         run: |
