@@ -31,7 +31,22 @@ jobs:
           mkdir -p imdbkit
           touch imdbkit/__init__.py
           echo "class IMDBKit: pass" > imdbkit/__init__.py
-          # Force python to transparently map pyrogram imports directly to hydrogram layout structure
+          
+          # Force python to map pyrogram layers and inject fallback parameters for LinkPreviewOptions
           SITE_PACKAGES=$(python -c "import site; print(site.getsitepackages()[0])")
-          echo "import sys; import hydrogram; sys.modules['pyrogram'] = hydrogram; sys.modules['pyrogram.types'] = hydrogram.types; sys.modules['pyrogram.errors'] = hydrogram.errors; sys.modules['pyrogram.enums'] = hydrogram.enums" > $SITE_PACKAGES/sitecustomize.py
+          
+          cat << 'EOF' > $SITE_PACKAGES/sitecustomize.py
+          import sys
+          import hydrogram
+          
+          # Inject missing LinkPreviewOptions attribute inside hydrogram types seamlessly
+          if not hasattr(hydrogram.types, 'LinkPreviewOptions'):
+              hydrogram.types.LinkPreviewOptions = getattr(hydrogram.types, 'LinkPreview', None)
+          
+          # Global translation layering
+          sys.modules['pyrogram'] = hydrogram
+          sys.modules['pyrogram.types'] = hydrogram.types
+          sys.modules['pyrogram.errors'] = hydrogram.errors
+          sys.modules['pyrogram.enums'] = hydrogram.enums
+          EOF
       - run: python bot.py
